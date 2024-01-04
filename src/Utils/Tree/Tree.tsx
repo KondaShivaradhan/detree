@@ -1,7 +1,4 @@
-import React from "react";
-import { TreeItem, TreeView } from "@mui/x-tree-view";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import React, { useState } from "react";
 
 export class TreeNode {
   id: number;
@@ -35,39 +32,35 @@ export class TreeNode {
   }
 }
 
-const convertToTreeDiv = (
-  node: TreeNode,
-  level: number = 0
-): React.ReactNode => {
-  console.log(level);
-  return (
-    <div key={node.id} style={{}} className="m-5">
-      <p>{node.id}</p>
-      <div>
-        {node.values.map((v, i) => (
-          <p key={i}>{v}</p>
-        ))}
-      </div>
-      <div className="flex flex-row justify-evenly">
-        {node.childs.map((child) => convertToTreeDiv(child, level + 1))}
-      </div>
-    </div>
-  );
-};
-export const TreeComponent2: React.FC = () => {
-  const root = new TreeNode(["Root Value"], "Root Heading");
-  const childNode1 = new TreeNode(["Child Value 1"], "Child Heading 1");
-  const childNode2 = new TreeNode(["Child Value 2"], "Child Heading 2");
-  const childNode3 = new TreeNode(["Child Value 3"], "Child Heading 3");
-
-  root.insertChild(childNode1);
-  root.insertChild(childNode2);
-  childNode1.insertChild(
-    new TreeNode(["Grandchild Value 1"], "Grandchild Heading 1")
-  );
-  childNode1.insertChild(
-    new TreeNode(["Grandchild Value 2"], "Grandchild Heading 2")
-  );
-  childNode2.insertChild(childNode3);
-  return <div>{convertToTreeDiv(root)}</div>;
-};
+// const convertToTreeDiv = (
+//   node: TreeNode,
+//   level: number = 0
+// ): React.ReactNode => {
+//   console.log(level);
+//   return (
+//     <div key={node.id} style={{}} className="m-5 w-max">
+//       <div
+//         className="border-red-600 border-2 p-2 rounded-xl"
+//         onClick={() => {
+//           console.log("clicked this " + node.id);
+//         }}
+//       >
+//         <p className="">
+//           {node.heading} - {node.id}
+//         </p>
+//         <hr />
+//         <div>
+//           {node.values.map((v, i) => (
+//             <p key={i}>{v}</p>
+//           ))}
+//         </div>
+//       </div>
+//       <div className="p-4 flex flex-row justify-between ">
+//         {node.childs.map((child) => convertToTreeDiv(child, level + 1))}
+//       </div>
+//     </div>
+//   );
+// };
+// export const TreeComponent: React.FC<{ root: TreeNode }> = ({ root }) => {
+//   return <div>{convertToTreeDiv(root)}</div>;
+// };
