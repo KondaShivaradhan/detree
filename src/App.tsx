@@ -1,26 +1,47 @@
-import "./App.css";
+import React, {
+  createContext,
+  FC,
+  useCallback,
+  useReducer,
+  useState,
+} from "react";
 import { TreeNode } from "./Utils/Tree/Tree";
-import { memo, useState } from "react";
-const App: React.FC = () => {
-  const [selected, setselected] = useState<number | null>();
+import Node from "./components/node";
 
-  const root = new TreeNode(["Root Value"], "Root Heading");
-  const childNode1 = new TreeNode(["Child Value 1"], "Child Heading 1");
-  const childNode2 = new TreeNode(["Child Value 2"], "Child Heading 2");
-  const childNode3 = new TreeNode(
-    ["GrandChild Value 3"],
-    "GrandChild Heading 3"
-  );
+interface ContextProps {
+  tree: TreeNode | null;
+  setTree: React.Dispatch<React.SetStateAction<TreeNode>>;
+  addChild: (node: TreeNode) => void;
+  removeNode: (id: TreeNode) => void;
+}
+export const MyContext = createContext<ContextProps | undefined>(undefined);
+export const createNewNode = (root: TreeNode) => {
+  const currentTime = new Date().getTime();
 
-  root.insertChild(childNode1);
-  root.insertChild(childNode2);
-  childNode1.insertChild(
-    new TreeNode(["Grandchild Value 1"], "Grandchild Heading 1")
-  );
-  childNode1.insertChild(
-    new TreeNode(["Grandchild Value 2"], "Grandchild Heading 2")
-  );
-  childNode2.insertChild(childNode3);
+  const node = new TreeNode(["New Node"], "New Node", currentTime % 10000);
+  return node;
+};
+const useForceUpdate = () => {
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  return useCallback(() => forceUpdate(), []);
+};
+
+const App: FC = () => {
+  const forceUpdate = useForceUpdate();
+  const root = new TreeNode(["Root Value"], "Root Heading", 1);
+  const [tree, setTree] = useState<TreeNode>(root);
+  const addChild = useCallback((node: TreeNode) => {
+    console.log("adding child to this node");
+    console.log(node.id);
+    root.addChildById(node.id, createNewNode(root));
+    forceUpdate();
+  }, []);
+  const removeNode = useCallback((node: TreeNode) => {
+    console.log("removing child to this node");
+    console.log(node.id);
+    root.removeNodeById(node.id);
+    forceUpdate();
+  }, []);
 
   const convertToTreeDiv = (
     node: TreeNode,
@@ -29,47 +50,37 @@ const App: React.FC = () => {
     console.log(level);
     return (
       <div key={node.id} style={{}} className="m-5 w-max">
-        <div
-          className="border-red-600 border-2 p-2 rounded-xl"
-          onClick={() => {
-            console.log("clicked this " + node.id);
-            setselected(node.id);
-          }}
-        >
-          <p className="">
-            {node.heading} - {node.id}
-          </p>
-          <hr />
-          <div>
-            {node.values.map((v, i) => (
-              <p key={i}>{v}</p>
-            ))}
-          </div>
-        </div>
+        <Node root={tree || createNewNode(root)} node={node} />
         <div className="p-4 flex flex-row justify-between ">
           {node.childs.map((child) => convertToTreeDiv(child, level + 1))}
         </div>
       </div>
     );
   };
+
   return (
-    <div className="w-max m-auto">
-      <div>{convertToTreeDiv(root)}</div>
-      <input
-        type="text"
-        className="p-2 rounded-xl border-2 border-red-200"
-        placeholder="type where to "
-      />
-      <button
-        className="mx-4"
-        onClick={() => {
-          console.log("asdfa");
-        }}
-      >
-        Add
-      </button>
-    </div>
+    <MyContext.Provider value={{ tree, setTree, addChild, removeNode }}>
+      <div className="w-max m-auto">
+        <div>{tree && convertToTreeDiv(tree)}</div>
+        <div></div>
+        <input
+          type="text"
+          className="p-2 rounded-xl border-2 border-red-200"
+          placeholder="type where to "
+        />
+        <button
+          className="mx-4"
+          onClick={() => {
+            console.log("asdfa");
+            // You can access and update the tree using contextValue.setTree
+          }}
+        >
+          Add
+        </button>
+      </div>
+      <p>{JSON.stringify(tree)}</p>
+    </MyContext.Provider>
   );
 };
 
-export default memo(App);
+export default App;
