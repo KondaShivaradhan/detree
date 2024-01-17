@@ -2,7 +2,6 @@ import React, {
   createContext,
   FC,
   useCallback,
-  useEffect,
   useReducer,
   useState,
 } from "react";
@@ -16,9 +15,9 @@ interface ContextProps {
   removeNode: (id: TreeNode) => void;
 }
 export const MyContext = createContext<ContextProps | undefined>(undefined);
-export const createNewNode = (root: TreeNode) => {
+export const createNewNode = () => {
   const currentTime = new Date().getTime();
-  const node = new TreeNode(["New Node"], "New Node", currentTime % 10000);
+  const node = new TreeNode(["New Node"], "New Heading", currentTime % 10000);
   return node;
 };
 const useForceUpdate = () => {
@@ -31,7 +30,7 @@ const App: FC = () => {
   const root = new TreeNode(["Root Value"], "Root Heading", 1);
   const [tree, setTree] = useState<TreeNode>(root);
   const addChild = useCallback((node: TreeNode) => {
-    root.addChildById(node.id, createNewNode(root));
+    root.addChildById(node.id, createNewNode());
     forceUpdate();
   }, []);
   const removeNode = useCallback((node: TreeNode) => {
@@ -46,7 +45,7 @@ const App: FC = () => {
     console.log(level);
     return (
       <div key={node.id} style={{}} className="m-5 w-max">
-        <Node root={tree || createNewNode(root)} node={node} />
+        <Node root={tree || createNewNode()} node={node} />
         <div className="p-4 flex flex-row justify-between ">
           {node.childs.map((child) => convertToTreeDiv(child, level + 1))}
         </div>

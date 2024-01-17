@@ -28,7 +28,7 @@ const Node: React.FC<EditableTextProps> = ({ node, root }) => {
       >
         <div className="">
           <EditableHeading node={node} root={root} initialText={node.heading} />
-          {node.id}
+          {/* {node.id} */}
         </div>
         <hr />
         <div>
