@@ -2,6 +2,7 @@ import React, {
   createContext,
   FC,
   useCallback,
+  useEffect,
   useReducer,
   useState,
 } from "react";
@@ -17,7 +18,6 @@ interface ContextProps {
 export const MyContext = createContext<ContextProps | undefined>(undefined);
 export const createNewNode = (root: TreeNode) => {
   const currentTime = new Date().getTime();
-
   const node = new TreeNode(["New Node"], "New Node", currentTime % 10000);
   return node;
 };
@@ -31,14 +31,10 @@ const App: FC = () => {
   const root = new TreeNode(["Root Value"], "Root Heading", 1);
   const [tree, setTree] = useState<TreeNode>(root);
   const addChild = useCallback((node: TreeNode) => {
-    console.log("adding child to this node");
-    console.log(node.id);
     root.addChildById(node.id, createNewNode(root));
     forceUpdate();
   }, []);
   const removeNode = useCallback((node: TreeNode) => {
-    console.log("removing child to this node");
-    console.log(node.id);
     root.removeNodeById(node.id);
     forceUpdate();
   }, []);
@@ -62,23 +58,7 @@ const App: FC = () => {
     <MyContext.Provider value={{ tree, setTree, addChild, removeNode }}>
       <div className="w-max m-auto">
         <div>{tree && convertToTreeDiv(tree)}</div>
-        <div></div>
-        <input
-          type="text"
-          className="p-2 rounded-xl border-2 border-red-200"
-          placeholder="type where to "
-        />
-        <button
-          className="mx-4"
-          onClick={() => {
-            console.log("asdfa");
-            // You can access and update the tree using contextValue.setTree
-          }}
-        >
-          Add
-        </button>
       </div>
-      <p>{JSON.stringify(tree)}</p>
     </MyContext.Provider>
   );
 };

@@ -56,10 +56,28 @@ export class TreeNode {
         return foundNode;
       }
     }
+    return null;
+  }
+  findParentNodeById(
+    targetId: string,
+    parent: TreeNode | null = null
+  ): TreeNode | null {
+    if (this.id === targetId) {
+      return parent;
+    }
+
+    for (const child of this.childs) {
+      const result = child.findParentNodeById(targetId, this);
+      if (result !== null) {
+        return result;
+      }
+    }
 
     return null;
   }
-
+  traverse() {
+    console.log(this);
+  }
   addChildById(targetId: string, newChild: TreeNode) {
     const targetNode = this.findNodeById(targetId);
     if (targetNode) {
@@ -75,15 +93,28 @@ export class TreeNode {
   }
   removeNodeById(targetId: string): void {
     console.log(`checking ${this.id} with ${targetId}`);
-
-    this.childs = this.childs.filter((child) => {
-      console.log(`Checking child with id: ${child.id}`);
-      return child.id !== targetId;
-    });
-
-    if (this.childs.length === 0) {
-      this.hasChild = false;
+    // find parent
+    let parent = this.findParentNodeById(targetId);
+    console.log(parent);
+    // remove the node to be deleted from the childs of the parent.
+    if (parent) {
+      parent.childs = parent.childs.filter((child) => child.id !== targetId);
     }
+    console.log(parent);
+
+    // const indexToRemove = this.childs.findIndex(
+    //   (child) => child.id === targetId
+    // );
+
+    // if (indexToRemove !== -1) {
+    //   this.childs.splice(indexToRemove, 1);
+
+    //   if (this.childs.length === 0) {
+    //     this.hasChild = false;
+    //   }
+    // } else {
+    //   console.log(`Node with id ${targetId} not found.`);
+    // }
   }
 
   updateHeading(targetId: string, newHead: string) {
