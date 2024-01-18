@@ -15,20 +15,16 @@ const Node: React.FC<EditableTextProps> = ({ node, root }) => {
   return (
     <div
       className={` flex flex-col align-middle justify-center content-center `}
-      onClick={() => {
-        console.log("clicked this " + node.id);
-      }}
     >
       <div
         className={` ${
           isRoot ? "font-bold" : ""
-        } hover:bg-gray-200 cursor-pointer w-fit self-center border-${
+        } hover:border-red-200 transform cursor-pointer w-fit self-center border-${
           true ? "red" : "white"
         }-600 border-2 p-2 rounded-xl`}
       >
-        <div className="">
+        <div className="text-center">
           <EditableHeading node={node} root={root} initialText={node.heading} />
-          {/* {node.id} */}
         </div>
         <hr />
         <div>
@@ -43,7 +39,6 @@ const Node: React.FC<EditableTextProps> = ({ node, root }) => {
           >
             Add Child
           </button>
-
           <button
             onClick={() => {
               context?.removeNode(node);
