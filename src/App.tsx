@@ -17,7 +17,7 @@ interface ContextProps {
 export const MyContext = createContext<ContextProps | undefined>(undefined);
 export const createNewNode = () => {
   const currentTime = new Date().getTime();
-  const node = new TreeNode(["New Node"], "New Heading", currentTime % 10000);
+  const node = new TreeNode("", "New Heading", currentTime % 10000);
   return node;
 };
 const useForceUpdate = () => {
@@ -27,7 +27,7 @@ const useForceUpdate = () => {
 
 const App: FC = () => {
   const forceUpdate = useForceUpdate();
-  const root = new TreeNode(["Root Value"], "Root Heading", 1);
+  const root = new TreeNode(``, "Root Heading", 1);
   const [tree, setTree] = useState<TreeNode>(root);
   const addChild = useCallback((node: TreeNode) => {
     root.addChildById(node.id, createNewNode());

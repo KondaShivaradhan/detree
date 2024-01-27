@@ -14,22 +14,24 @@ const Node: React.FC<EditableTextProps> = ({ node, root }) => {
   const isRoot = node.id === root.id;
   return (
     <div
-      className={` flex flex-col align-middle justify-center content-center `}
+      className={` flex flex-col align-middle justify-center content-center items-center`}
     >
       <div
         className={` ${
           isRoot ? "font-bold" : ""
         } hover:border-red-200 transform cursor-pointer w-fit self-center border-${
           true ? "red" : "white"
-        }-600 border-2 p-2 rounded-xl`}
+        }-600 border-2 p-2 rounded-xl  flex flex-col align-middle justify-center content-center items-center gap-2`}
       >
         <div className="text-center">
           <EditableHeading node={node} root={root} initialText={node.heading} />
         </div>
         <hr />
-        <div>
-          <EditableText initialText={node.values[0]} />
-        </div>
+        {!isRoot && (
+          <div className="m-2">
+            <EditableText initialText={node.values} />
+          </div>
+        )}
         <div>
           <button
             onClick={() => {
@@ -39,14 +41,16 @@ const Node: React.FC<EditableTextProps> = ({ node, root }) => {
           >
             Add Child
           </button>
-          <button
-            onClick={() => {
-              context?.removeNode(node);
-            }}
-            className="p-2 bg-red-400"
-          >
-            Delete
-          </button>
+          {!isRoot && (
+            <button
+              onClick={() => {
+                context?.removeNode(node);
+              }}
+              className="p-2 bg-red-400"
+            >
+              Delete
+            </button>
+          )}
         </div>
       </div>
     </div>

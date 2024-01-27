@@ -4,10 +4,10 @@ export class TreeNode {
   id: string;
   hasChild: boolean;
   heading: string;
-  values: string[];
+  values: string;
   childs: TreeNode[];
 
-  constructor(val: string[], head: string, id: number) {
+  constructor(val: string, head: string, id: number) {
     this.id = nanoid(4);
     this.hasChild = false;
     this.values = val;
@@ -20,11 +20,8 @@ export class TreeNode {
   getID() {
     return this.id;
   }
-  insertValue(newValue: string) {
-    this.values.push(newValue);
-  }
 
-  updateNodeById(targetId: string, newValues: string[]) {
+  updateNodeById(targetId: string, newValues: string) {
     if (this.id == targetId) {
       this.values = newValues;
       return true;
