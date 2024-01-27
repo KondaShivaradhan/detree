@@ -46,11 +46,11 @@ export const EditableText: React.FC<EditableTextProps> = ({ initialText }) => {
   };
 
   return (
-    <div onClick={() => setIsEditing(true)} className="p-2 max-w-sm">
+    <div onClick={() => setIsEditing(true)} className="p-2 max-w-sm text-text">
       {isEditing ? (
         <textarea
           style={{ height: 200 }}
-          className="min-w-fit"
+          className="min-w-fit bg-transparent p-3 text-center focus:outline-accent focus:outline-1"
           ref={textareaRef}
           value={text}
           onChange={(e) => setText(e.target.value)}

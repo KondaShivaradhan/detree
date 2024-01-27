@@ -44,7 +44,7 @@ const EditableHeading: React.FC<EditableTextProps> = ({
           autoFocus
         />
       ) : (
-        <span className="font-bold">{text}</span>
+        <span className="font-bold text-text">{text}</span>
       )}
     </div>
   );
