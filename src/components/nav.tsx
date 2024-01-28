@@ -8,7 +8,6 @@ function SideNav() {
             L
           </span>
 
-          {/* The element you want to show/hide on hover */}
           <span className="absolute z-50 left-full top-1/2 ml-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white invisible group-hover:visible">
             Language
           </span>
@@ -41,7 +40,7 @@ function SideNav() {
                   />
                 </svg>
 
-                <span className="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white invisible group-hover:visible">
+                <span className="z-20 absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white invisible group-hover:visible">
                   General
                 </span>
               </a>
@@ -68,7 +67,7 @@ function SideNav() {
                     />
                   </svg>
 
-                  <span className="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white invisible group-hover:visible">
+                  <span className="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white visible group-hover:visible">
                     Teams
                   </span>
                 </a>

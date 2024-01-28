@@ -98,20 +98,6 @@ export class TreeNode {
       parent.childs = parent.childs.filter((child) => child.id !== targetId);
     }
     console.log(parent);
-
-    // const indexToRemove = this.childs.findIndex(
-    //   (child) => child.id === targetId
-    // );
-
-    // if (indexToRemove !== -1) {
-    //   this.childs.splice(indexToRemove, 1);
-
-    //   if (this.childs.length === 0) {
-    //     this.hasChild = false;
-    //   }
-    // } else {
-    //   console.log(`Node with id ${targetId} not found.`);
-    // }
   }
 
   updateHeading(targetId: string, newHead: string) {

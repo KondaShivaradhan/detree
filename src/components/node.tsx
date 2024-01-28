@@ -61,7 +61,9 @@ const Node: React.FC<EditableTextProps> = ({ node, root }) => {
               title="Add New"
               onClick={() => {
                 if (!isRoot) context?.removeNode(node);
-                window.location.reload();
+                else {
+                  window.location.reload();
+                }
               }}
               className="group cursor-pointer outline-none -rotate-45 hover:rotate-45 duration-300"
             >

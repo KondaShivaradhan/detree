@@ -56,10 +56,10 @@ const App: FC = () => {
 
   return (
     <MyContext.Provider value={{ tree, setTree, addChild, removeNode }}>
+      <div className="fixed ml-5 h-screen flex flex-col justify-center align-middle z-20">
+        <SideNav />
+      </div>
       <div className="flex flex-row flex-nowrap">
-        <div className="fixed ml-5 h-screen flex flex-col justify-center align-middle z-20">
-          <SideNav />
-        </div>
         <div className="relative z-10 w-max m-auto">
           <div className="ml-20">{tree && convertToTreeDiv(tree)}</div>
         </div>
